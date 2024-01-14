@@ -651,7 +651,7 @@
         .exp_table { border-color: #34353b; }`
     } else if (/e-hentai\.org\/mpv\//.test(windowUrl)) {
       scientificDarkStyles += `
-        div.mi0 { background: #43464e; border: 1px solid #34353b; }`
+        div.mimg { background: #43464e; border: 1px solid #34353b; }`
     } else if (windowUrl.includes('favorites.php')) {
       scientificDarkStyles += `
         div.fp:hover { background:#43464e; }
@@ -996,7 +996,7 @@
         .exp_table { border-color: #5C0D12; }`
     } else if (/exhentai\.org\/mpv\//.test(windowUrl)) {
       scientificLightStyles += `
-        div.mi0 { background: #F2EFDF; border: 1px solid #E3E0D1; }`
+        div.mimg { background: #F2EFDF; border: 1px solid #E3E0D1; }`
     } else if (windowUrl.includes('favorites.php')) {
       scientificLightStyles += `
         div.fp:hover { background:#F3F0E0; }
@@ -2455,14 +2455,14 @@
     if (shortcuts.mpsModeEnabled) {
       fitMpvStyles = `
         /* stretch to fill screen */
-        div.mi0, img[id ^= "imgsrc_"] { height: calc(100vh - 2px) !important; width: auto !important; }
+        div.mimg, img[id ^= "imgsrc_"] { height: calc(100vh - 2px) !important; width: auto !important; }
         /* maintain aspect ratio and fit to screen */
         img[id ^= "imgsrc_"] { object-fit: contain; max-width: 100%; }
         /* remove default width limit and reposition the text and buttons below the image */
-        div.mi0 { display: inline-table; min-width: 0; max-width: 100% !important; }
-        div.mi1 { display: flex; justify-content: center; height: 20px; padding: 5px 0 3px 0; }
+        div.mimg { display: inline-table; min-width: 0; max-width: 100% !important; }
+        div.mbar { display: flex; justify-content: center; height: 20px; padding: 5px 0 3px 0; }
         div.mi2, div.mi3 { position: absolute; float: unset; opacity: 0; transition-duration: 0.3s; }
-        div.mi1:hover > div.mi2, div.mi1:hover > div.mi3 { opacity: 1; }
+        div.mbar:hover > div.mi2, div.mbar:hover > div.mi3 { opacity: 1; }
         div.mi2 { left: 0; }
         div.mi3 { right: 0; }
         div.mi4 { max-width: calc(100% - 10px); top: unset; left: unset; white-space: nowrap; overflow: hidden;
@@ -2470,12 +2470,12 @@
     } else {
       fitMpvStyles = `
         /* stretch to fill screen */
-        div.mi0, img[id ^= "imgsrc_"] { height: calc(100vh - 2px) !important; width: 100% !important; }
+        div.mimg, img[id ^= "imgsrc_"] { height: calc(100vh - 2px) !important; width: 100% !important; }
         /* maintain aspect ratio and fit to screen */
         img[id ^= "imgsrc_"] { object-fit: contain; }
         /* remove default width limit and reposition the text and buttons below the image */
-        div.mi0 { max-width: 100% !important; ${shortcuts.seamlessModeEnabled ? '' : 'padding-bottom: 30px; '}}
-        div.mi1 { padding: 5px 0 3px 0; }
+        div.mimg { max-width: 100% !important; ${shortcuts.seamlessModeEnabled ? '' : 'padding-bottom: 30px; '}}
+        div.mbar { padding: 5px 0 3px 0; }
         div.mi4 { width: 60vw; position: initial; top: 5px; margin: 0 auto; white-space: nowrap; overflow: hidden; }`
     }
     let persistentStyles = `
@@ -2490,13 +2490,13 @@
     if (shortcuts.seamlessModeEnabled) {
       persistentStyles += `
         /* hide the information and buttons below each image */
-        div.mi1 { display: none; }`
+        div.mbar { display: none; }`
     }
     fitMpvStyles += persistentStyles
     if (shortcuts.seamlessModeEnabled) {
       // This property is now included in "persistentStyles" but not in "fitMpvStyles" so as to avoid repetition.
       persistentStyles += `
-        div.mi0 { height: auto !important; }`
+        div.mimg { height: auto !important; }`
     }
 
     /**
@@ -4865,7 +4865,7 @@
     /**
      * Observes subtree child list changes under the main image pane and removes tooltips when image anchors are loaded.
      *
-     * This NodeList will be loaded in each mutation: [a, text, div.mi1]
+     * This NodeList will be loaded in each mutation: [a, text, div.mbar]
      *
      * @param {} mutations
      */
@@ -4876,7 +4876,7 @@
           continue
         }
         for (const addedNode of mutation.addedNodes) {
-          // Find the image anchor and remove the title attribute from div.mi0 > a > img[id ^= "imgsrc_"].
+          // Find the image anchor and remove the title attribute from div.mimg > a > img[id ^= "imgsrc_"].
           if (addedNode.nodeName === 'A') {
             const mainImage = addedNode.querySelector('img[id ^= "imgsrc_"]')
             if (mainImage !== null) {
